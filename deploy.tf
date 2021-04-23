@@ -11,20 +11,7 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "us-west-2"
-}
-
-# Variables
-variable "myregion" {
-  description = "AWS Region"
-  type        = string
-  default     = "us-west-2"
-}
-
-variable "buttondown_secret" {
-  description = "Key for Buttondown API"
-  type        = string
-  default     = "UNASSIGNED"
+  region  = "us-east-2"
 }
 
 data "aws_canonical_user_id" "current" {}
@@ -122,7 +109,7 @@ resource "aws_lambda_function" "example" {
   filename      = "function.zip"
   function_name = "lambda_buttondown"
   role          = aws_iam_role.role.arn
-  handler       = "exports.handler"
+  handler       = "index.handler"
   runtime       = "nodejs14.x"
   timeout       = 100
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
