@@ -1,7 +1,8 @@
+.PHONY: clean
 clean:
 	rm ./function.zip
 
-build: index.js
+build: index.js clean
 	zip -r function.zip .
 
 deploy: build

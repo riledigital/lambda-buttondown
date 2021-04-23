@@ -9,19 +9,17 @@ require('dotenv').config();
  * Will succeed with the response body.
  */
 exports.handler = (event, context, lambdaCallback) => {
-  const formData = JSON.parse(event.body);
+  const formData = JSON.parse(event);
   console.log('The whole event:');
   console.log(event);
   console.log('The form data:');
   console.log(formData);
 
-  axios.post({
+  axios.post('api.buttondown.email/v1/subscribers', formData, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Token ${process.env.BUTTONDOWN_SECRET}`
-    },
-    url: 'api.buttondown.email/v1/subscribers',
-    method: 'post'
+    }
   }).then(function (response) {
     console.log(response);
     if (!response.data.email) {
