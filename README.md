@@ -32,3 +32,8 @@ Once your endpoint is ready, you can send a POST request to the endpoint URL
 with the same data specified in
 [the Buttondown API docs](https://api.buttondown.email/v1/schema#operation/Create%20a%20new%20subscriber).
 All of the data sent to your Lambda proxy is passed onto Buttondown.
+
+## AWS Setup with Terraform
+
+[Following this tutorial on Hashicorp](https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway),
+you can deploy automatically to AWS using Terraform. run ``
