@@ -35,5 +35,8 @@ All of the data sent to your Lambda proxy is passed onto Buttondown.
 
 ## AWS Setup with Terraform
 
+Run `make provision` and type "yes" to provision and deploy to AWS with
+Terraform.
+
 [Following this tutorial on Hashicorp](https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway),
-you can deploy automatically to AWS using Terraform. run ``
+you can deploy automatically to AWS using Terraform.

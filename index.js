@@ -15,7 +15,12 @@ exports.handler = (event, context, lambdaCallback) => {
   console.log('The form data:');
   console.log(formData);
 
-  axios.post('api.buttondown.email/v1/subscribers', formData, {
+  axios.post('api.buttondown.email/v1/subscribers', {
+    email: formData.email,
+    metadata: formData.metadata,
+    notes: formData.notes,
+    referrer_url: formData.referrer_url
+  }, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Token ${process.env.BUTTONDOWN_SECRET}`
