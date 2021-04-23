@@ -21,6 +21,12 @@ variable "myregion" {
   default     = "us-west-2"
 }
 
+variable "buttondown_secret" {
+  description = "Key for Buttondown API"
+  type        = string
+  default     = "UNASSIGNED"
+}
+
 data "aws_canonical_user_id" "current" {}
 data "aws_caller_identity" "current" {}
 
@@ -118,11 +124,18 @@ resource "aws_lambda_function" "example" {
   role          = aws_iam_role.role.arn
   handler       = "exports.handler"
   runtime       = "nodejs12.x"
-
+  timeout       = 100
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
   # source_code_hash = "${base64sha256(file("lambda.zip"))}"
   source_code_hash = filebase64sha256("function.zip")
+
+
+  environment {
+    variables = {
+      BUTTONDOWN_SECRET = var.buttondown_secret
+    }
+  }
 }
 
 
