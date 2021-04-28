@@ -4,13 +4,7 @@
 const axios = require('axios').default;
 require('dotenv').config();
 
-/**
- * Pass the data to send as `event.data`, and the request options as
- * `event.options`. For more information see the HTTPS module documentation
- * at https://nodejs.org/api/https.html.
- *
- * Will succeed with the response body.
- */
+// This requires node >8 for async/await syntax.
 exports.handler = async function (event) {
   // Can only test with API Gateway
   const formData = JSON.parse(event.body);
@@ -50,7 +44,7 @@ exports.handler = async function (event) {
           'x-amzn-ErrorType': response.code
         },
         isBase64Encoded: false,
-        body: `${response.code}: ${response.data}`
+        body: `${response.code}: ${JSON.stringify(response.data)}`
       };
     }
 
@@ -60,7 +54,7 @@ exports.handler = async function (event) {
         'Content-Type': 'application/json'
       },
       isBase64Encoded: false,
-      body: response.data
+      body: JSON.stringify(response.data)
     };
   } catch (error) {
     console.log(error);
