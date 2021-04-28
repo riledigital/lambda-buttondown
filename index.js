@@ -42,7 +42,7 @@ exports.handler = async function (event) {
     console.log(`Token ${process.env.BUTTONDOWN_SECRET}`);
 
     console.log(response);
-    if (response.statusCode === 400) {
+    if (response.statusCode !== 201) {
       return {
         statusCode: response.statusCode,
         headers: {
@@ -50,7 +50,7 @@ exports.handler = async function (event) {
           'x-amzn-ErrorType': response.code
         },
         isBase64Encoded: false,
-        body: `${response.code}: ${response.message}`
+        body: `${response.code}: ${response.data}`
       };
     }
 
@@ -60,13 +60,18 @@ exports.handler = async function (event) {
         'Content-Type': 'application/json'
       },
       isBase64Encoded: false,
-      body: JSON.stringify(response.body)
+      body: response.data
     };
   } catch (error) {
     console.log(error);
     return {
-      statusCode: 403,
-      body: { error }
+      statusCode: 502,
+      headers: {
+        'Content-Type': 'text/plain',
+        'x-amzn-ErrorType': 502
+      },
+      isBase64Encoded: false,
+      body: `502: ${error}`
     };
   }
 };
