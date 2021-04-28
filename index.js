@@ -44,7 +44,7 @@ exports.handler = async function (event) {
           'x-amzn-ErrorType': response.code
         },
         isBase64Encoded: false,
-        body: `${response.code}: ${JSON.stringify(response.data)}`
+        body: `${response.code}: ${response.data}`
       };
     }
 
@@ -54,7 +54,7 @@ exports.handler = async function (event) {
         'Content-Type': 'application/json'
       },
       isBase64Encoded: false,
-      body: JSON.stringify(response.data)
+      body: response.data
     };
   } catch (error) {
     console.log(error);
