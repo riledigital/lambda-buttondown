@@ -1,5 +1,5 @@
 const axios = require('axios').default;
-Require('dotenv').config();
+require('dotenv').config();
 
 /**
  * Pass the data to send as `event.data`, and the request options as
