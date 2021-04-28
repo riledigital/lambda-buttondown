@@ -117,6 +117,10 @@ resource "aws_lambda_function" "example" {
   # source_code_hash = "${base64sha256(file("lambda.zip"))}"
   source_code_hash = filebase64sha256("function.zip")
 
+  # ... other configuration ...
+  depends_on = [
+    aws_iam_role_policy_attachment.lambda_logs
+  ]
 
   environment {
     variables = {
@@ -125,4 +129,35 @@ resource "aws_lambda_function" "example" {
   }
 }
 
+# Logging
+
+
+# See also the following AWS managed policy: AWSLambdaBasicExecutionRole
+resource "aws_iam_policy" "lambda_logging" {
+  name        = "lambda_logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.role.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
+}
 
