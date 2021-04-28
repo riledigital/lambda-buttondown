@@ -9,7 +9,7 @@ require('dotenv').config();
  * Will succeed with the response body.
  */
 exports.handler = (event, context, lambdaCallback) => {
-  const formData = JSON.parse(event);
+  const formData = event.body;
   console.log('The whole event:');
   console.log(event);
   console.log('The form data:');
@@ -28,29 +28,29 @@ exports.handler = (event, context, lambdaCallback) => {
   }).then(function (response) {
     console.log(response);
     if (!response.data.email) {
-      lambdaCallback(null, JSON.stringify(({
+      lambdaCallback(null,({
         statusCode: 200,
         body: response.data,
         headers: { 'Content-Type': 'application/json' }
-      })));
+      }));
     }
-    lambdaCallback(null, JSON.stringify({
+    lambdaCallback(null, {
       statusCode: 201,
       body: response.data,
       headers: { 'Content-Type': 'application/json' }
-    }));
+    });
   })
     .catch(function (error) {
       console.log(error);
-      lambdaCallback(null, JSON.stringify({
+      lambdaCallback(null,{
         statusCode: 403,
         body: error
-      }));
+      });
     });
 
   return {
     statusCode: 200,
-    body: JSON.stringify(event.data),
+    body: event.data,
     headers: { 'Content-Type': 'application/json' }
   };
 };
